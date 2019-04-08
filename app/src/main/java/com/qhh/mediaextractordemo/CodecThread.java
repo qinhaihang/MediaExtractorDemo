@@ -43,7 +43,7 @@ public class CodecThread extends Thread {
         for (int i = 0; i < mMediaExtractor.getTrackCount(); i++) {
             MediaFormat trackFormat = mMediaExtractor.getTrackFormat(i);
             String mime = trackFormat.getString(MediaFormat.KEY_MIME);
-            if (mime.equals("video/")) {
+            if (mime.startsWith("video/")) {
                 mMediaExtractor.selectTrack(i);
                 try {
                     mMediaCodec = MediaCodec.createDecoderByType(mime);
@@ -58,6 +58,8 @@ public class CodecThread extends Thread {
             return;
         }
         mMediaCodec.start();
+
+//        Image inputImage = mMediaCodec.getInputImage(0);
 
         ByteBuffer[] inputBuffers = mMediaCodec.getInputBuffers();
         ByteBuffer[] outputBuffers = mMediaCodec.getOutputBuffers();
